@@ -3,28 +3,19 @@ import ConnectionForm from './components/ConnectionForm';
 import Collections from './components/Collections';
 
 const App = () => {
-  const [token, setToken] = useState(null); // Secure token from backend
-  const [collections, setCollections] = useState([]);
-  const [message, setMessage] = useState('');
-
+  const [connectionInfo, setConnectionInfo] = useState(null); // { uri, collections }
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND_URL}/health`).catch(() => {});
   }, []);
+  console.log('Backend URL:', import.meta.env.VITE_BACKEND_URL);
 
   return (
     <div className="container py-4">
-      {!token ? (
-        <ConnectionForm setToken={setToken} setCollections={setCollections} setMessage={setMessage} />
+      {!connectionInfo ? (
+        <ConnectionForm setConnectionInfo={setConnectionInfo} />
       ) : (
-        <Collections
-          token={token}
-          collections={collections}
-          setToken={setToken}
-          setCollections={setCollections}
-          setMessage={setMessage}
-        />
+        <Collections connectionInfo={connectionInfo} setConnectionInfo={setConnectionInfo} />
       )}
-      {message && <div className="alert alert-warning mt-3">{message}</div>}
     </div>
   );
 };
