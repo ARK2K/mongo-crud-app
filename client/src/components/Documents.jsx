@@ -14,7 +14,14 @@ const Documents = ({ uri, collectionName }) => {
     setMessage('');
     try {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/documents`, { uri, collectionName });
-      setDocuments(res.data.documents);
+      if(res.data.documents.length === 0) {
+        setMessage('No documents found. You can create one!');
+        setDocuments([]);
+      } else{
+        setDocuments(res.data.documents);
+        setMessage('');
+      }
+      
     } catch (err) {
       setMessage('Failed to fetch documents: ' + (err.response?.data?.message || err.message));
     }
