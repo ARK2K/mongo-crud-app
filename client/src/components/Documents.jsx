@@ -52,7 +52,7 @@ const Documents = ({ uri, collectionName }) => {
     try {
       const updatedDocument = JSON.parse(editDoc);
       delete updatedDocument._id;  // Remove _id before sending
-      await axios.post('http://localhost:5000/api/update', {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/update`, {
         uri,
         collectionName,
         id: editId,

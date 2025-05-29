@@ -11,7 +11,7 @@ const ConnectionForm = ({ setConnectionInfo }) => {
   const handleConnect = async () => {
     setMessage('');
     try {
-      const res = await axios.post('http://localhost:5000/api/connect', { uri });
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/connect`, { uri });
       if (res.data.collections.length === 0) {
         setShowInitForm(true);
       } else {
@@ -27,13 +27,13 @@ const ConnectionForm = ({ setConnectionInfo }) => {
     try {
       const doc = JSON.parse(initialDoc);
       if (!newCollection.trim()) return setMessage('Collection name required');
-      await axios.post('http://localhost:5000/api/init', {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/init`, {
         uri,
         collectionName: newCollection.trim(),
         initialDoc: doc,
       });
       // Refresh collections
-      const res = await axios.post('http://localhost:5000/api/connect', { uri });
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/connect`, { uri });
       setConnectionInfo({ uri, collections: res.data.collections });
     } catch (err) {
       setMessage('Create failed: ' + (err.response?.data?.message || err.message));
