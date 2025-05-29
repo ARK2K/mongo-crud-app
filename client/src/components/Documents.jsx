@@ -77,7 +77,7 @@ const Documents = ({ uri, collectionName }) => {
     if (!window.confirm('Delete this document?')) return;
     setMessage('');
     try {
-      await axios.post('${import.meta.env.VITE_BACKEND_URL}/api/delete', { uri, collectionName, id });
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/delete`, { uri, collectionName, id });
       fetchDocuments();
     } catch (err) {
       setMessage('Delete failed: ' + (err.response?.data?.message || err.message));
