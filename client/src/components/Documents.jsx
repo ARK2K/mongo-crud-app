@@ -13,7 +13,7 @@ const Documents = ({ uri, collectionName }) => {
     setLoading(true);
     setMessage('');
     try {
-      const res = await axios.post('http://localhost:5000/api/documents', { uri, collectionName });
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/documents`, { uri, collectionName });
       setDocuments(res.data.documents);
     } catch (err) {
       setMessage('Failed to fetch documents: ' + (err.response?.data?.message || err.message));
@@ -29,7 +29,7 @@ const Documents = ({ uri, collectionName }) => {
     setMessage('');
     try {
       const document = JSON.parse(docInput);
-      await axios.post('http://localhost:5000/api/create', { uri, collectionName, document });
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/create`, { uri, collectionName, document }, { headers: { 'Content-Type': 'application/json' }});
       setDocInput('{}');
       fetchDocuments();
     } catch (err) {
@@ -70,7 +70,7 @@ const Documents = ({ uri, collectionName }) => {
     if (!window.confirm('Delete this document?')) return;
     setMessage('');
     try {
-      await axios.post('http://localhost:5000/api/delete', { uri, collectionName, id });
+      await axios.post('${import.meta.env.VITE_BACKEND_URL}/api/delete', { uri, collectionName, id });
       fetchDocuments();
     } catch (err) {
       setMessage('Delete failed: ' + (err.response?.data?.message || err.message));
