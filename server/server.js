@@ -1,12 +1,21 @@
 const express = require('express');
 const cors = require('cors');
-const app = express();
 const mongoRoutes = require('./routes/mongoRoutes');
 
-app.use(cors());
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(cors({
+  origin: 'https://ARK2K.github.io',
+}));
 app.use(express.json());
+
+app.get('/health', (req, res) => {
+  res.status(200).send('Backend is live!');
+});
 
 app.use('/api', mongoRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
